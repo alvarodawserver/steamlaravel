@@ -5,7 +5,7 @@
                 <th scope="col" class="px-6 py-3 font-medium">DNI</th>
                 <th scope="col" class="px-6 py-3 font-medium">Nombre</th>
                 <th scope="col" class="px-6 py-3 font-medium">Apellidos</th>
-                <th scope="col" class="px-6 py-3 font-medium">Acciones</th>
+                <th scope="col" class="px-6 py-3 font-medium" colspan="2">Acciones</th>
 
 
             </thead>
@@ -21,11 +21,9 @@
                                 @csrf
                                 <button type="submit">Borrar</button>
                             </form>
-                            <form action="/cliente/{{$cliente ->id}}">
-                                @method('PUT')
-                                @csrf
-                                <button type="submit">Modificar</button>
-                            </form>
+                        </td>
+                        <td>
+                            <a href="/clientes/{{ $cliente->id }}">Modificar</a>
                         </td>
                     </tr>
                 @endforeach
