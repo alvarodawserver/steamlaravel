@@ -30,13 +30,13 @@ Route::get('/clientes/create',function (){
 });
 
 
-Route::delete('/clientes/borrar/{cliente}', function (Cliente $cliente) {
+Route::delete('/clientes/{cliente}', function (Cliente $cliente) {
     $cliente->delete();
     return redirect('/clientes');
 });
 
-Route::post('/clientes/create',function(Request $request){
-    $validated = $request->validate([
+Route::post('/clientes',function(Request $request){
+    $request->validate([
         'dni' => 'required|max:9|unique:clientes', //En el caso de que el nombre del campo del formulario no coincida con el nombre de la tabla, entonces ponemos unique:clientes,dni
         'nombre' => 'required|max:255',
         'apellidos' => 'max:255',
@@ -49,6 +49,27 @@ Route::post('/clientes/create',function(Request $request){
     return redirect('/clientes');
 });
 
+
+Route::get('/clientes/{cliente}',function(Cliente $cliente){
+    return view('clientes.edit',[
+        'cliente' => $cliente
+    ]);
+});
+
+Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) {
+    $validated = $request->validate([
+        'dni' => 'required|max:9|unique:clientes,dni,' . $cliente -> id, //En este caso ponemos esto para que el dni no nos de error
+        //ya que obviamente el dni está pillado porque nosotros estamos modificando
+        'nombre' => 'required|max:255',
+        'apellidos' => 'max:255',
+        'direccion' => 'max:255',
+        'codpostal' => 'nullable|numeric|decimal:0|digits:5',
+        'telefono' => 'nullable|max:9'
+
+    ]);
+    $cliente->update($validated);
+    return redirect('/clientes');
+});
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper
