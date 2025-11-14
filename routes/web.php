@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Cliente;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +32,20 @@ Route::get('/clientes/create',function (){
 
 Route::delete('/clientes/borrar/{cliente}', function (Cliente $cliente) {
     $cliente->delete();
+    return redirect('/clientes');
+});
+
+Route::post('/clientes/create',function(Request $request){
+    $validated = $request->validate([
+        'dni' => 'required|max:9|unique:clientes', //En el caso de que el nombre del campo del formulario no coincida con el nombre de la tabla, entonces ponemos unique:clientes,dni
+        'nombre' => 'required|max:255',
+        'apellidos' => 'max:255',
+        'direccion' => 'max:255',
+        'codpostal' => 'nullable|numeric|decimal:0|digits:5',
+        'telefono' => 'nullable|max:9'
+
+    ]);
+    Cliente::create($request ->input());
     return redirect('/clientes');
 });
 
