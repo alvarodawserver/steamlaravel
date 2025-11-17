@@ -65,16 +65,20 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) {
         'direccion' => 'max:255',
         'codpostal' => 'nullable|numeric|decimal:0|digits:5',
         'telefono' => 'nullable|max:9'
-
     ]);
+    
     $cliente->update($validated);
     return redirect('/clientes');
 });
+
+
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper
     return "Hola,$nombre";
 });*/
+
+
 /*Route::get('/hola',function() { //Usamos una fachada(facade), son clases que solo tienen métodos estáticos
     $nombre = Request::query('nombre');
     return "Hola,$nombre";

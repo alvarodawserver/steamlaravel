@@ -1,33 +1,33 @@
 <x-app-layout>
-    <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default"></div>
-        <table class="w-full text-sm text-left rtl:text-right text-body">
-            <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
-                <th scope="col" class="px-6 py-3 font-medium">DNI</th>
-                <th scope="col" class="px-6 py-3 font-medium">Nombre</th>
-                <th scope="col" class="px-6 py-3 font-medium">Apellidos</th>
-                <th scope="col" class="px-6 py-3 font-medium" colspan="2">Acciones</th>
-
-
-            </thead>
-            <tbody>
-                @foreach ($clientes as $cliente )
-                    <tr class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
-                        <td class="px-6 py-4">{{ $cliente->dni }}</td>
-                        <td class="px-6 py-4">{{ $cliente->nombre }}</td>
-                        <td class="px-6 py-4">{{ $cliente->apellidos }}</td>
-                        <td class="px-6 py-4">
-                            <form action="/clientes/{{ $cliente->id }}" method="post">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
+            <table class="table">
+                <thead>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Acciones</th>
+                </thead>
+                <tbody>
+                    @foreach ($clientes as $cliente)
+                    <tr class="bg-neutral-primary border-b border-default">
+                        <td>{{ $cliente->dni }}</td>
+                        <td>{{ $cliente->nombre }}</td>
+                        <td>{{ $cliente->apellidos }}</td>
+                        <td>
+                            <form action="/clientes/{{ $cliente->id }}" method="POST">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit">Borrar</button>
                             </form>
                         </td>
                         <td>
-                            <a href="/clientes/{{ $cliente->id }}">Modificar</a>
+                            <a href="/clientes/{{ $cliente->id }}/edit">
+                                Modificar
+                            </a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
+</div>
 </x-app-layout>
