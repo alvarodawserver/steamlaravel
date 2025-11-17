@@ -15,7 +15,7 @@
         @endif
 </head>
 <body>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen bg-gray-300">
         <!-- Barra superior -->
         <div class="navbar bg-base-100 shadow-sm">
             <div class="flex-1">
@@ -28,7 +28,7 @@
                     <li>
                         <details>
                             <summary>Menú</summary>
-                            <ul class="bg-base-100 rounded-t-none p-2">
+                            <ul class="rounded-t-none p-2">
                                 <li><a href="">Opciones</a></li>
                                 <li><a href="">Salir</a></li>
                             </ul>
