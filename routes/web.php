@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\VideojuegoController;
 use App\Models\Cliente;
+use App\Models\Videojuego;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,14 +11,14 @@ Route::get('/', function () {
 });
 
 
-Route::get('/clientes',function (){
+Route::get('/clientes',function (){ //Ver clientes
     return view('clientes.index',[
         'clientes' => Cliente::all(),
     ]);
 
 });
 
-Route::get('/clientes/create',function (){
+Route::get('/clientes/create',function (){ //Create
     return view("clientes.create");
     // Cliente::create([
     //  "dni" => '11113',
@@ -30,7 +32,7 @@ Route::get('/clientes/create',function (){
 });
 
 
-Route::delete('/clientes/{cliente}', function (Cliente $cliente) {
+Route::delete('/clientes/{cliente}', function (Cliente $cliente) { //Delete
     $cliente->delete();
     return redirect('/clientes');
 });
@@ -50,13 +52,13 @@ Route::post('/clientes',function(Request $request){
 });
 
 
-Route::get('/clientes/{cliente}',function(Cliente $cliente){
+Route::get('/clientes/{cliente}',function(Cliente $cliente){ //Modificar
     return view('clientes.edit',[
-        'cliente' => $cliente
+        'cliente' => $cliente //Como es un Modelo/Objeto le pasamos el cliente directamente para que nos muestre TODO
     ]);
 });
 
-Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) {
+Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) { //Update
     $validated = $request->validate([
         'dni' => 'required|max:9|unique:clientes,dni,' . $cliente -> id, //En este caso ponemos esto para que el dni no nos de error
         //ya que obviamente el dni está pillado porque nosotros estamos modificando
@@ -65,11 +67,26 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) {
         'direccion' => 'max:255',
         'codpostal' => 'nullable|numeric|decimal:0|digits:5',
         'telefono' => 'nullable|max:9'
+
     ]);
-    
     $cliente->update($validated);
     return redirect('/clientes');
 });
+
+
+// Route::get('/juegos',[VideojuegoController::class,'index']);
+//El route::resource que hay abajo es el equivalente a poner 7 routes estas que tenemos aqui
+// Route::get('/juegos/create',[VideojuegoController::class,'create']);
+
+Route::resource("videojuegos",VideojuegoController::class);
+
+
+
+
+
+
+
+
 
 
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
@@ -77,10 +94,7 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) {
     $nombre = request() -> query('nombre'); //Esto es un helper
     return "Hola,$nombre";
 });*/
-
-
 /*Route::get('/hola',function() { //Usamos una fachada(facade), son clases que solo tienen métodos estáticos
     $nombre = Request::query('nombre');
     return "Hola,$nombre";
 });*/
-
