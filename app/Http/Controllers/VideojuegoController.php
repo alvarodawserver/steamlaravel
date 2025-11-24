@@ -54,7 +54,12 @@ class VideojuegoController extends Controller
      */
     public function update(Request $request, Videojuego $videojuego)
     {
-        //
+        $validated = $request->validate([
+            'nombre' => 'required|max:255',
+            'precio' => 'required|numeric',
+            'lanzamiento' => 'required',
+            'desarrolladora_id' => 'required'
+        ]);
     }
 
     /**
@@ -62,6 +67,7 @@ class VideojuegoController extends Controller
      */
     public function destroy(Videojuego $videojuego)
     {
-        //
+        $videojuego->delete();
+        return view("clientes.index");
     }
 }
