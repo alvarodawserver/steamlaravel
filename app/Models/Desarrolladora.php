@@ -10,4 +10,8 @@ class Desarrolladora extends Model
     public function videojuegos(){
         return $this->hasMany(Videojuego::class);
     }
+
+    public function editora(){
+        return $this->belongsTo(Editora::class);
+    }
 }

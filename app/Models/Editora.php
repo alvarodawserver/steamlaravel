@@ -8,7 +8,7 @@ class Editora extends Model
 {
     protected $fillable = ['nombre'];
 
-    public function desarrolladora(){
-        
+    public function desarrolladoras(){
+        return $this->hasMany(Desarrolladora::class);
     }
 }
