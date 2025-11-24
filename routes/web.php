@@ -74,7 +74,6 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) { 
 });
 
 
-<<<<<<< HEAD
 // Route::get('/juegos',[VideojuegoController::class,'index']);
 //El route::resource que hay abajo es el equivalente a poner 7 routes estas que tenemos aqui
 // Route::get('/juegos/create',[VideojuegoController::class,'create']);
@@ -90,13 +89,6 @@ Route::resource("videojuegos",VideojuegoController::class);
 
 
 
-=======
-Route::get('/juegos',function(){
-    return view('juegos.index',[
-        'juegos' => Videojuego::all(),
-    ]);
-});
->>>>>>> 21a445be59ed0c769c5e23cc9edcd98e38c74fb7
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper
