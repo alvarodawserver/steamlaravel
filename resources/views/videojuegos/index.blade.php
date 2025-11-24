@@ -6,6 +6,7 @@
                     <th>Precio</th>
                     <th>Lanzamiento</th>
                     <th>Desarrolladora</th>
+                    <th colspan="2">Acciones</th>
                 </thead>
                 <tbody>
                     @foreach ($videojuegos as $videojuego)
@@ -14,8 +15,12 @@
                         <td>{{ $videojuego->precio_formateado }}</td>
                         <td>{{ $videojuego->lanzamiento_formateado }}</td>
                         <td>{{ $videojuego->desarrolladora->denominacion}}</td>
+                        <td><a href="/videojuegos/{{ $videojuego->id }}">Borrar</a></td>
+                        <td><a href="/videojuegos/edit">Modificar</a></td>
+
                     </tr>
                 @endforeach
+
             </tbody>
         </table>
 </div>

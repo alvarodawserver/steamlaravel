@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desarrolladora;
 use App\Models\Videojuego;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,9 @@ class VideojuegoController extends Controller
      */
     public function create()
     {
-        return view("videojuegos.create");
+        return view("videojuegos.create",[
+            "desarrolladoras" => Desarrolladora::all(),
+        ]);
     }
 
     /**
@@ -37,7 +40,7 @@ class VideojuegoController extends Controller
         'desarrolladora_id' => 'required|exists:desarrolladoras,id',
         ]);
         Videojuego::create($validated);
-        redirect("/videojuegos");
+        return redirect()->route("videojuegos.index");
     }
 
     /**
@@ -75,6 +78,6 @@ class VideojuegoController extends Controller
     public function destroy(Videojuego $videojuego)
     {
         $videojuego->delete();
-        return view("clientes.index");
+        return redirect()->route("videojuegos.index");
     }
 }

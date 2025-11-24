@@ -16,7 +16,7 @@ Route::get('/clientes',function (){ //Ver clientes
         'clientes' => Cliente::all(),
     ]);
 
-});
+})->name('clientes.index');
 
 Route::get('/clientes/create',function (){ //Create
     return view("clientes.create");

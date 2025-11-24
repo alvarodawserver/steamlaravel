@@ -1,13 +1,5 @@
 <x-app-layout>
-    @if ($errors->any())
-    <div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-
+    <x-errores />
 @endif
     <div class="w-full max-w-sm mx-auto">
         <form action="/clientes/{{ $cliente->id }}" method="post" class="card bg-base-200 p-6 shadow">
