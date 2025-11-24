@@ -1,8 +1,6 @@
 <x-app-layout>
     <x-errores />
 
-
-
     <div class="w-full max-w-sm mx-auto">
         <h2 class="text-2x1 font-bold mb-3">Insertar un videojuego</h2>
         <form action="/videojuegos" method="post" class="card bg-base-200 p-6 shadow">
