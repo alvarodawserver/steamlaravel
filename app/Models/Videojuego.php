@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Videojuego extends Model
 {
+<<<<<<< HEAD
     protected $fillable = [
         'nombre',
         'precio',
@@ -29,6 +30,9 @@ class Videojuego extends Model
         return $formatter->formatCurrency($this->precio,"EUR");
     }
 
+=======
+    protected $fillable = ['titulo','precio','lanzamiento','desarrolladora_id'];
+>>>>>>> 21a445be59ed0c769c5e23cc9edcd98e38c74fb7
     public function desarrolladora(){
         return $this->belongsTo(Desarrolladora::class);
     }
