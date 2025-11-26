@@ -11,4 +11,8 @@ class Editora extends Model
     public function desarrolladoras(){
         return $this->hasMany(Desarrolladora::class);
     }
+
+    public function videojuegos(){
+        return $this->hasManyThrough(Videojuego::class,Desarrolladora::class);
+    }
 }

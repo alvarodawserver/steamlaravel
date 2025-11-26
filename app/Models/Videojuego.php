@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Videojuego extends Model
 {
@@ -31,5 +32,9 @@ class Videojuego extends Model
 
     public function desarrolladora(){
         return $this->belongsTo(Desarrolladora::class);
+    }
+
+    public function editora():BelongsTo{
+        return $this->desarrolladora()->editora();
     }
 }
