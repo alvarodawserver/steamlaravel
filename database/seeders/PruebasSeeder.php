@@ -38,6 +38,12 @@ class PruebasSeeder extends Seeder
                 "lanzamiento" => "2012-10-23",
                 "desarrolladora_id" => $desarrolladora_id,
             ]]);
+
+
+            DB::table("generos")->insert([
+                ["genero" => "Ciencia-ficción"],
+                ["genero" => "Terror"],
+            ]);
         }
     }
 }

@@ -37,4 +37,8 @@ class Videojuego extends Model
     public function editora():BelongsTo{
         return $this->desarrolladora()->editora();
     }
+
+    public function generos(){
+        return $this->belongsToMany(Genero::class)->withTimestamps();
+    }
 }
