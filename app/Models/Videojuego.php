@@ -41,4 +41,12 @@ class Videojuego extends Model
     public function generos(){
         return $this->belongsToMany(Genero::class)->withTimestamps();
     }
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
+
+    public function logros(){
+        return $this->hasMany(Logro::class);
+    }
 }

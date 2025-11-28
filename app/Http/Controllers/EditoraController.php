@@ -12,7 +12,7 @@ class EditoraController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

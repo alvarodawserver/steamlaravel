@@ -48,7 +48,9 @@ class VideojuegoController extends Controller
      */
     public function show(Videojuego $videojuego)
     {
-
+        return view("videojuegos.show",[
+            "videojuego" => $videojuego,
+        ]);
     }
 
     /**
@@ -56,7 +58,10 @@ class VideojuegoController extends Controller
      */
     public function edit(Videojuego $videojuego)
     {
-        //
+        return view("videojuegos.edit",[
+            "videojuego" => $videojuego,
+            "desarrolladoras" => Desarrolladora::all(),
+        ]);
     }
 
     /**
@@ -70,6 +75,8 @@ class VideojuegoController extends Controller
             'lanzamiento' => 'required',
             'desarrolladora_id' => 'required'
         ]);
+        $videojuego->update($validated);
+        return redirect()->route("videojuegos.index");
     }
 
     /**

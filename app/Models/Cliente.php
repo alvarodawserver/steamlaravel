@@ -14,4 +14,8 @@ class Cliente extends Model
         "codpostal",
         "telefono",
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

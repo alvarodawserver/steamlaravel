@@ -12,7 +12,9 @@ class GeneroController extends Controller
      */
     public function index()
     {
-        //
+        return view("generos.index",[
+            "generos" => Genero::orderBy('genero')->get(),
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class GeneroController extends Controller
      */
     public function create()
     {
-        //
+        return view("generos.create");
     }
 
     /**
@@ -28,7 +30,11 @@ class GeneroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            "genero" => "required|max:255|unique:generos",
+        ]);
+        Genero::create($validated);
+        return redirect()->route("generos.index");
     }
 
     /**
