@@ -28,7 +28,6 @@
                     @endforeach
                 </select>
             </label>
-
             <div class="flex-2">
                 <button class="btn btn-soft btn-success" type="submit">Insertar</button>
                 <a href="{{ route("videojuegos.index") }}" class="btn btn-soft btn-info">Volver</a>

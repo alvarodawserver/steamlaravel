@@ -83,8 +83,8 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) { 
 Route::resource("videojuegos",VideojuegoController::class);
 Route::resource("editoras",EditoraController::class);
 Route::resource("generos",GeneroController::class);
-
-
+Route::post('/videojuegos/{videojuego}/anadir_genero',[VideojuegoController::class,'agregar_genero'])->name('videojuegos.agregar_genero');
+Route::delete('videojuegos/{videojuego}/quitar_genero/{genero}',[VideojuegoController::class,'quitar_genero'])->name('videojuegos.quitar_genero');
 
 
 

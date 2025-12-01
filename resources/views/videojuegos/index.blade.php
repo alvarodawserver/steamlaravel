@@ -21,6 +21,8 @@
                         <td>{{ $videojuego->desarrolladora->denominacion}}</td>
                         <td><a href="{{ route("videojuegos.destroy",$videojuego->id) }}">Borrar</a></td>
                         <td><a href="{{ route("videojuegos.edit",$videojuego->id) }}">Modificar</a></td>
+                        
+
                     </tr>
                 @endforeach
 
