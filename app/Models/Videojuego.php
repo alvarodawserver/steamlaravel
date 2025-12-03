@@ -39,7 +39,7 @@ class Videojuego extends Model
     }
 
     public function generos(){
-        return $this->belongsToMany(Genero::class)->withTimestamps();
+        return $this->belongsToMany(Genero::class)->withTimestamps()->orderBy('genero');
     }
 
     public function users(){

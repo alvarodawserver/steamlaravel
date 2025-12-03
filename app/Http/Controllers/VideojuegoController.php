@@ -54,6 +54,7 @@ class VideojuegoController extends Controller
         $otros_generos = Genero::whereDoesntHave('videojuegos',function(Builder $q) use ($videojuego){
             $q->where('videojuego_id',$videojuego->id);//Esta consulta sirve para que en el select de show quite los generos que ya están dentro del array de videojuegos->generos()
         })->get();
+
         return view('videojuegos.show', [
             'videojuego' => $videojuego,
             'otros_generos' => $otros_generos,

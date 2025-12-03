@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Genero;
+
 use Illuminate\Http\Request;
 
 class GeneroController extends Controller
@@ -10,10 +11,16 @@ class GeneroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $q = Genero::orderBy('genero');
+        if($busqueda = $request->query('busqueda')){
+            $q->whereLike('genero',"%$busqueda%",false);
+        }
         return view("generos.index",[
-            "generos" => Genero::orderBy('genero')->get(),
+            "generos" => $q->paginate(5)->withQueryString(), //Esto se pone para paginar el indice,a parte,
+            // se pone el withQueryString para  guardar los datos del input "busqueda" y que no se pierdan al cambiar de página
+            "busqueda" => $busqueda //Le podemos mandar la búsqueda para poder ponerlo en el value
         ]);
     }
 
