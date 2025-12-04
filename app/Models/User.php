@@ -51,7 +51,11 @@ class User extends Authenticatable
     }
 
     public function videojuegos(){
-        return $this->belongsToMany(Videojuego::class);
+        return $this->morphedByMany(Videojuego::class,'adquirible');
+    }
+
+    public function hardware(){
+        return $this->morphedByMany(Hardware::class,'adquirible');
     }
 
     public function logros(){

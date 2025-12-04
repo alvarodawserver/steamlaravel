@@ -104,7 +104,10 @@ class VideojuegoController extends Controller
             return back()->withErrors(['genero_id' => 'El videojuego ya tiene ese género']);
         }
         $videojuego->generos()->attach($genero);
-        return redirect()->route('videojuegos.show',$videojuego);
+        //session()->flash('exito','Género agregado'); //Esto crea la variable de sesión
+        //'exito' y en la siguiente request la elimina automaticamente
+        return redirect()->route('videojuegos.show',$videojuego)
+        ->with('exito','Has añadido el género');
     }
 
     public function quitar_genero(Videojuego $videojuego,Genero $genero){
@@ -112,6 +115,6 @@ class VideojuegoController extends Controller
             return back()->withErrors(['genero_id' => 'El videojuego no tiene ese género']);
         }
         $videojuego->generos()->detach($genero);
-        return redirect()->route('videojuegos.show',$videojuego);
+        return redirect()->route('videojuegos.show',$videojuego)->with('exito','Has quitado el género');
     }
 }

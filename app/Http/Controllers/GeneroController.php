@@ -13,14 +13,18 @@ class GeneroController extends Controller
      */
     public function index(Request $request)
     {
-        $q = Genero::orderBy('genero');
+        $q = Genero::query();
         if($busqueda = $request->query('busqueda')){
             $q->whereLike('genero',"%$busqueda%",false);
         }
+
+        $sentido =  $request->query('sentido') == 'desc' ? 'desc':'asc';
+        $q->orderBy('genero',$sentido);
         return view("generos.index",[
             "generos" => $q->paginate(5)->withQueryString(), //Esto se pone para paginar el indice,a parte,
-            // se pone el withQueryString para  guardar los datos del input "busqueda" y que no se pierdan al cambiar de página
-            "busqueda" => $busqueda //Le podemos mandar la búsqueda para poder ponerlo en el value
+            // se pone el withQueryString para  guardar todos los datos y que no se pierdan al cambiar de página
+            "busqueda" => $busqueda, //Le podemos mandar la búsqueda para poder ponerlo en el value
+            "sentido" => $sentido,
         ]);
     }
 
@@ -73,6 +77,11 @@ class GeneroController extends Controller
      */
     public function destroy(Genero $genero)
     {
-        //
+        if($genero->videojuegos()->exists()){
+            return back()->with('fallo','El género tiene videojuegos');
+            //Esto hace una redirección a donde estaba antes del error y encima crea una  variable flash
+        }
+        $genero->delete();
+        return redirect()->route('generos.index')->with('exito','Género borrado correctamente');
     }
 }
