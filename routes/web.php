@@ -2,16 +2,16 @@
 
 use App\Http\Controllers\EditoraController;
 use App\Http\Controllers\GeneroController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideojuegoController;
 use App\Models\Cliente;
 use App\Models\Videojuego;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Route::get('/', function () {
+    // return redirect()->route('videojuegos.index');
+// });
 
 Route::get('/clientes',function (){ //Ver clientes
     return view('clientes.index',[
@@ -23,20 +23,20 @@ Route::get('/clientes',function (){ //Ver clientes
 Route::get('/clientes/create',function (){ //Create
     return view("clientes.create");
     // Cliente::create([
-    //  "dni" => '11113',
-    //  "nombre" => 'Pepe',
-    //  "apellidos" => 'Perez',
-    //  "direccion" => 'Calle Ancha',
-    //  "codpostal" => 11540,
-    //  "telefono" => '123456789',
-    // ]);
+        //  "dni" => '11113',
+        //  "nombre" => 'Pepe',
+        //  "apellidos" => 'Perez',
+        //  "direccion" => 'Calle Ancha',
+        //  "codpostal" => 11540,
+        //  "telefono" => '123456789',
+        // ]);
 
-});
+    });
 
 
-Route::delete('/clientes/{cliente}', function (Cliente $cliente) { //Delete
-    $cliente->delete();
-    return redirect('/clientes');
+    Route::delete('/clientes/{cliente}', function (Cliente $cliente) { //Delete
+        $cliente->delete();
+        return redirect('/clientes');
 });
 
 Route::post('/clientes',function(Request $request){
@@ -85,6 +85,11 @@ Route::resource("editoras",EditoraController::class);
 Route::resource("generos",GeneroController::class);
 Route::post('/videojuegos/{videojuego}/anadir_genero',[VideojuegoController::class,'agregar_genero'])->name('videojuegos.agregar_genero');
 Route::delete('videojuegos/{videojuego}/quitar_genero/{genero}',[VideojuegoController::class,'quitar_genero'])->name('videojuegos.quitar_genero');
+
+//Esto es para que al entrar al localhost:8000 nos mande directamente a los juegos
+Route::redirect('/',route('videojuegos.index'));
+
+Route::get('users/ver_perfil/1',[UserController::class,'ver_perfil'])->name('users.ver_perfil');
 
 
 

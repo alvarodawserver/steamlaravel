@@ -31,6 +31,7 @@
                             <summary>Menú</summary>
                             <ul class="rounded-t-none p-2">
                                 <li><a href="">Opciones</a></li>
+                                <li><a href="{{ route('users.ver_perfil') }}">Ver perfil</a></li>
                                 <li><a href="">Salir</a></li>
                             </ul>
                         </details>

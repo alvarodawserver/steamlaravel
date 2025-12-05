@@ -62,4 +62,11 @@ class UserController extends Controller
     {
         //
     }
+
+
+    public function ver_perfil(){
+        $user = User::find(1);
+        return view('users.perfil',['user' => $user]);
+    }
+
 }
