@@ -15,7 +15,7 @@
 
             <label class="floating-label" for="lanzamiento">
                 <span>Lanzamiento</span>
-                <input class="input" type="date" id="lanzamiento" name="lanzamiento" value="{{ old('lanzamiento', $videojuego -> lanzamiento)}}"><br>
+                <input class="input" type="date" id="lanzamiento" name="lanzamiento" value="{{ old('lanzamiento', $videojuego ->lanzamiento->format('Y-m-d'))}}"><br>
             </label>
 
             <label class="floating-label" for="desarrolladora_id">

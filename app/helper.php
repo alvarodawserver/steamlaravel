@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Carbon;
+
 if(!function_exists('dinero')){
     function dinero($valor){
         $formatter = new \NumberFormatter('es_ES', \NumberFormatter::CURRENCY);
@@ -10,8 +12,10 @@ if(!function_exists('dinero')){
 
 
 if(!function_exists('fecha')){
-    function fecha($fecha){
-
-        return date_format($fecha,"");
+    function fecha(Carbon $fecha){
+        return $fecha
+            ->locale('es')
+            ->timezone('Europe/Madrid')
+            ->translatedFormat('d \d\e F \d\e Y');
     }
 }
