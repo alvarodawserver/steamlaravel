@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\EditoraController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\UserController;
@@ -7,59 +6,8 @@ use App\Http\Controllers\VideojuegoController;
 use App\Models\Cliente;
 use App\Models\Videojuego;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
-// Route::get('/', function () {
-    // return redirect()->route('videojuegos.index');
-// });
-
-Route::get('/clientes',function (){ //Ver clientes
-    return view('clientes.index',[
-        'clientes' => Cliente::all(),
-    ]);
-
-})->name('clientes.index');
-
-Route::get('/clientes/create',function (){ //Create
-    return view("clientes.create");
-    // Cliente::create([
-        //  "dni" => '11113',
-        //  "nombre" => 'Pepe',
-        //  "apellidos" => 'Perez',
-        //  "direccion" => 'Calle Ancha',
-        //  "codpostal" => 11540,
-        //  "telefono" => '123456789',
-        // ]);
-
-    });
-
-
-    Route::delete('/clientes/{cliente}', function (Cliente $cliente) { //Delete
-        $cliente->delete();
-        return redirect('/clientes');
-});
-
-Route::post('/clientes',function(Request $request){
-    $request->validate([
-        'dni' => 'required|max:9|unique:clientes', //En el caso de que el nombre del campo del formulario no coincida con el nombre de la tabla, entonces ponemos unique:clientes,dni
-        'nombre' => 'required|max:255',
-        'apellidos' => 'max:255',
-        'direccion' => 'max:255',
-        'codpostal' => 'nullable|numeric|decimal:0|digits:5',
-        'telefono' => 'nullable|max:9'
-
-    ]);
-    Cliente::create($request ->input());
-    return redirect('/clientes');
-});
-
-
-Route::get('/clientes/{cliente}',function(Cliente $cliente){ //Modificar
-    return view('clientes.edit',[
-        'cliente' => $cliente //Como es un Modelo/Objeto le pasamos el cliente directamente para que nos muestre TODO
-    ]);
-});
-
 Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) { //Update
     $validated = $request->validate([
         'dni' => 'required|max:9|unique:clientes,dni,' . $cliente -> id, //En este caso ponemos esto para que el dni no nos de error
@@ -107,3 +55,20 @@ Route::get('users/ver_perfil/1',[UserController::class,'ver_perfil'])->name('use
     $nombre = Request::query('nombre');
     return "Hola,$nombre";
 });*/
+
+
+Route::get("/", function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
