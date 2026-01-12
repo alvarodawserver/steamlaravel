@@ -6,7 +6,9 @@
                     <th>Precio</th>
                     <th>Lanzamiento</th>
                     <th>Desarrolladora</th>
-                    <th colspan="2">Acciones</th>
+                    @auth
+                        <th colspan="2">Acciones</th>
+                    @endauth
                 </thead>
                 <tbody>
                     @foreach ($videojuegos as $videojuego)
@@ -19,9 +21,11 @@
                         <td>{{ $videojuego->precio_formateado }}</td>
                         <td>{{ $videojuego->lanzamiento_formateado }}</td>
                         <td>{{ $videojuego->desarrolladora->denominacion}}</td>
-                        <td><a href="{{ route("videojuegos.destroy",$videojuego->id) }}">Borrar</a></td>
-                        <td><a href="{{ route("videojuegos.edit",$videojuego->id) }}">Modificar</a></td>
-                        
+                        @auth
+                            <td><a href="{{ route("videojuegos.destroy",$videojuego->id) }}">Borrar</a></td>
+                            <td><a href="{{ route("videojuegos.edit",$videojuego->id) }}">Modificar</a></td>
+                        @endauth
+
 
                     </tr>
                 @endforeach

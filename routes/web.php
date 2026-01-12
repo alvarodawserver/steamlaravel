@@ -81,11 +81,14 @@ Route::put('clientes/{cliente}', function (Cliente $cliente,Request $request) { 
 //El route::resource que hay abajo es el equivalente a poner 7 routes estas que tenemos aqui
 // Route::get('/juegos/create',[VideojuegoController::class,'create']);
 
-Route::resource("videojuegos",VideojuegoController::class);
+Route::resource("videojuegos",VideojuegoController::class)->except(['index','show'])->middleware('auth');
+//Lo  de  arriba significa, "Aplica el middleware auth a todas las rutas excepto el index y el show
+Route::resource("videojuegos",VideojuegoController::class)->only(['index','show']);
+
 Route::resource("editoras",EditoraController::class);
 Route::resource("generos",GeneroController::class);
-Route::post('/videojuegos/{videojuego}/anadir_genero',[VideojuegoController::class,'agregar_genero'])->name('videojuegos.agregar_genero');
-Route::delete('videojuegos/{videojuego}/quitar_genero/{genero}',[VideojuegoController::class,'quitar_genero'])->name('videojuegos.quitar_genero');
+Route::post('/videojuegos/{videojuego}/anadir_genero',[VideojuegoController::class,'agregar_genero'])->middleware('auth')->name('videojuegos.agregar_genero');
+Route::delete('videojuegos/{videojuego}/quitar_genero/{genero}',[VideojuegoController::class,'quitar_genero'])->middleware('auth')->name('videojuegos.quitar_genero');
 
 //Esto es para que al entrar al localhost:8000 nos mande directamente a los juegos
 Route::redirect('/',route('videojuegos.index'));

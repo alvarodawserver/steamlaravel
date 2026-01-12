@@ -20,14 +20,18 @@
                         @endphp
                         <a class="btn btn-ghost" href="{{request()->fullUrlWithQuery(['sentido' => $sentido])}}">Género{{ $flecha }}</a>
                     </th>
-                    <th colspan="2">Acciones</th>
+                    @auth
+                        <th colspan="2">Acciones</th>
+                    @endauth
                 </thead>
                 <tbody>
 
                     @foreach ($generos as $genero)
                     <tr class="bg-neutral-primary border-b border-default">
                         <td>{{ $genero->genero }}</td>
+                        @auth
                         <td>
+
                             <form action="{{ route('generos.destroy',$genero->id)}}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -35,6 +39,7 @@
                             </form>
                         </td>
                         <td><a href="{{ route("generos.edit",$genero->id) }}">Modificar</a></td>
+                        @endauth
                     </tr>
                 @endforeach
 
@@ -42,6 +47,8 @@
             </tbody>
         </table>
         {{$generos->links()}}
+        @auth
         <button class="btn btn-soft btn-info">Crear género</button>
+        @endauth
     </div>
 </x-app-layout>
