@@ -7,6 +7,7 @@ use App\Http\Controllers\VideojuegoController;
 use App\Models\Cliente;
 use App\Models\Videojuego;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -89,10 +90,42 @@ Route::delete('videojuegos/{videojuego}/quitar_genero/{genero}',[VideojuegoContr
 //Esto es para que al entrar al localhost:8000 nos mande directamente a los juegos
 Route::redirect('/',route('videojuegos.index'));
 
-Route::get('users/ver_perfil/1',[UserController::class,'ver_perfil'])->name('users.ver_perfil');
+Route::get('users/ver_perfil',[UserController::class,'ver_perfil'])->middleware('auth')->name('users.ver_perfil');
+
+
+Route::get('/login',function(){
+    return view('users.login');
+})->name('login');
 
 
 
+
+
+
+Route::post('/login',function(Request $request){
+    $credentials = $request->validate([
+        'email' =>  'required|email',
+        'password' => 'required',
+    ]);
+
+    if(Auth::attempt($credentials)){
+        $request->session()->regenerate();
+        return redirect()->intended(route('users.ver_perfil'));
+    }
+
+    return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+})->name('login');
+
+
+Route::post('/logout',function(Request $request){
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+
+})->name('logout');
 
 
 

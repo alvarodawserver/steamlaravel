@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -63,10 +64,13 @@ class UserController extends Controller
         //
     }
 
+    public function login(){
+        return view('users.login');
+    }
+
 
     public function ver_perfil(){
-        $user = User::find(1);
-        return view('users.perfil',['user' => $user]);
+        return view('users.perfil',['user' => Auth::user()]);
     }
 
 }
