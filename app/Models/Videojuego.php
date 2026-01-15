@@ -49,4 +49,8 @@ class Videojuego extends Model
     public function logros(){
         return $this->hasMany(Logro::class);
     }
+
+    public function comentarios(){
+        return $this->hasMany(Comentario::class);
+    }
 }

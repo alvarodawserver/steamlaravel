@@ -61,4 +61,8 @@ class User extends Authenticatable
     public function logros(){
         return $this->belongsToMany(Logro::class);
     }
+
+    public function comentarios(){
+        return $this->hasMany(Comentario::class);
+    }
 }

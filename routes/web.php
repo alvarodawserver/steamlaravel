@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ComentarioController;
 use App\Http\Controllers\EditoraController;
 use App\Http\Controllers\GeneroController;
 use App\Http\Controllers\UserController;
@@ -131,7 +132,7 @@ Route::post('/logout',function(Request $request){
 })->name('logout');
 
 
-
+Route::resource('comentarios',ComentarioController::class);
 
 
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...

@@ -7,6 +7,8 @@ use App\Models\Genero;
 use App\Models\Videojuego;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class VideojuegoController extends Controller
 {
@@ -25,6 +27,16 @@ class VideojuegoController extends Controller
      */
     public function create()
     {
+
+        //Es una forma diferente de hacer lo de abajo
+        // if(Gate::denies('videojuego-create')){
+            // abort(403,'No tienes permiso para crear videojuegos');
+        // }
+
+        if(!Gate::allows('videojuego-create')){
+            return redirect()->route('videojuegos.index')->with('fallo','No tienes permiso para crear videojuegos');
+            //abort(403,'No tienes permiso para crear videojuegos');
+        }
         return view("videojuegos.create",[
             "desarrolladoras" => Desarrolladora::all(),
         ]);
@@ -54,7 +66,7 @@ class VideojuegoController extends Controller
         $otros_generos = Genero::whereDoesntHave('videojuegos',function(Builder $q) use ($videojuego){
             $q->where('videojuego_id',$videojuego->id);//Esta consulta sirve para que en el select de show quite los generos que ya están dentro del array de videojuegos->generos()
         })->orderBy('genero')->get();
-        
+
         return view('videojuegos.show', [
             'videojuego' => $videojuego,
             'otros_generos' => $otros_generos,

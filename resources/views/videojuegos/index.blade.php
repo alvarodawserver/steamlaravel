@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-errores/>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
         <table class="table">
             <thead>
@@ -32,5 +33,10 @@
 
             </tbody>
         </table>
+        @auth
+            @can('videojuego-create')
+                <a class="btn btn-ghost btn-primary" href="{{ route('videojuegos.create') }}">Dar de alta a un nuevo videojuego</a>
+            @endcan
+        @endauth
 </div>
 </x-app-layout>
