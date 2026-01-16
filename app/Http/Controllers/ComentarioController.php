@@ -14,7 +14,7 @@ class ComentarioController extends Controller
     public function index()
     {
         Gate::authorize('viewAny',Comentario::class);
-        return view('comentarios.index');
+        //return view('comentarios.index');
     }
 
     /**
