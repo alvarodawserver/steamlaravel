@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVideojuegoRequest;
 use App\Models\Desarrolladora;
 use App\Models\Genero;
 use App\Models\Videojuego;
@@ -27,16 +28,18 @@ class VideojuegoController extends Controller
      */
     public function create()
     {
-
+        Gate::authorize('create',Videojuego::class);
         //Es una forma diferente de hacer lo de abajo
         // if(Gate::denies('videojuego-create')){
             // abort(403,'No tienes permiso para crear videojuegos');
         // }
 
-        if(!Gate::allows('videojuego-create')){
-            return redirect()->route('videojuegos.index')->with('fallo','No tienes permiso para crear videojuegos');
-            //abort(403,'No tienes permiso para crear videojuegos');
-        }
+        // if(!Gate::allows('videojuego-create')){
+        //     return redirect()->route('videojuegos.index')->with('fallo','No tienes permiso para crear videojuegos');
+        //     //abort(403,'No tienes permiso para crear videojuegos');
+        // }
+
+
         return view("videojuegos.create",[
             "desarrolladoras" => Desarrolladora::all(),
         ]);
@@ -45,15 +48,9 @@ class VideojuegoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVideojuegoRequest $request)
     {
-        $validated = $request->validate([
-        'nombre' => 'required|max:255',
-        'precio' => 'required|decimal:2|gte:-999999.99|lte:999999.99',
-        'lanzamiento' => 'required|date',
-        'desarrolladora_id' => 'required|exists:desarrolladoras,id',
-        ]);
-        Videojuego::create($validated);
+        Videojuego::create($request->validated());
         return redirect()->route("videojuegos.index");
     }
 
