@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Videojuego extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'nombre',
         'precio',
@@ -52,5 +54,15 @@ class Videojuego extends Model
 
     public function comentarios(){
         return $this->hasMany(Comentario::class);
+    }
+
+    public static function rules():array
+    {
+        return [
+            'nombre' => 'required|max:255',
+            'precio' => 'required|decimal:2|gte:-999999.99|lte:999999.99',
+            'lanzamiento' => 'required|date',
+            'desarrolladora_id' => 'required|exists:desarrolladoras,id'
+        ];
     }
 }

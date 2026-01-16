@@ -37,7 +37,7 @@ class VideojuegoPolicy
      */
     public function update(User $user, Videojuego $videojuego): bool
     {
-        return false;
+        return $user->name == 'Admin';
     }
 
     /**

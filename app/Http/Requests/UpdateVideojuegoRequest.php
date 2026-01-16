@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Videojuego;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateVideojuegoRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateVideojuegoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('update',$this->videojuego);
     }
 
     /**
@@ -21,8 +22,6 @@ class UpdateVideojuegoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return Videojuego::rules();
     }
 }

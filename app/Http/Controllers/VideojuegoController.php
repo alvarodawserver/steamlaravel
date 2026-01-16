@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVideojuegoRequest;
+use App\Http\Requests\UpdateVideojuegoRequest;
 use App\Models\Desarrolladora;
 use App\Models\Genero;
 use App\Models\Videojuego;
@@ -75,6 +76,7 @@ class VideojuegoController extends Controller
      */
     public function edit(Videojuego $videojuego)
     {
+        Gate::authorize('update',$videojuego);
         return view("videojuegos.edit",[
             "videojuego" => $videojuego,
             "desarrolladoras" => Desarrolladora::all(),
@@ -84,15 +86,10 @@ class VideojuegoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Videojuego $videojuego)
+    public function update(UpdateVideojuegoRequest $request, Videojuego $videojuego)
     {
-        $validated = $request->validate([
-            'nombre' => 'required|max:255',
-            'precio' => 'required|numeric',
-            'lanzamiento' => 'required',
-            'desarrolladora_id' => 'required'
-        ]);
-        $videojuego->update($validated);
+
+        $videojuego->update($request->validated());
         return redirect()->route("videojuegos.index");
     }
 
