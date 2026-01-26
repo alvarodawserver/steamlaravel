@@ -158,6 +158,17 @@ Route::get('/pruebas', function () {
 });
 
 
+
+Route::get('/ajax',function(){
+    return view('ajax');
+});
+
+Route::post('/ajax/mayusculas',function(Request $request){
+    $texto = $request->input('texto');
+    return response()->json([
+        'resultado' => mb_strtoupper($texto)
+    ]);
+});
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper
