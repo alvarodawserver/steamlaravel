@@ -169,6 +169,8 @@ Route::post('/ajax/mayusculas',function(Request $request){
         'resultado' => mb_strtoupper($texto)
     ]);
 });
+
+Route::livewire('/livewire','pages::post.create');
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper
