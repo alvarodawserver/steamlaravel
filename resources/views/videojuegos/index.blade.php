@@ -22,15 +22,20 @@
                         <td>{{ $videojuego->precio_formateado }}</td>
                         <td>{{ $videojuego->lanzamiento_formateado }}</td>
                         <td>{{ $videojuego->desarrolladora->denominacion}}</td>
-                        @auth
-                            <td><a href="{{ route("videojuegos.destroy",$videojuego->id) }}">Borrar</a></td>
-                            <td><a href="{{ route("videojuegos.edit",$videojuego->id) }}">Modificar</a></td>
-                        @endauth
-
-
+                        <td>
+                            @can('delete',$videojuego)
+                                <form action="{{ route('videojuegos.destroy',$videojuego) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-ghost btn-error" onclick="return confirm('¿Está seguro que desea eliminar el juego?')">Eliminar</button>
+                                </form>
+                            @endcan
+                            @can('update',$videojuego)
+                                <a class="btn btn-sm btn-ghost btn-info" href="{{ route('videojuegos.edit', $videojuego) }}">Editar</a>
+                            @endcan
+                        </td>
                     </tr>
-                @endforeach
-
+                    @endforeach
             </tbody>
         </table>
         @auth

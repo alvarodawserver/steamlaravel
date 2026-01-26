@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Videojuego extends Model
 {
@@ -13,7 +14,8 @@ class Videojuego extends Model
         'nombre',
         'precio',
         'lanzamiento',
-        'desarrolladora_id'
+        'desarrolladora_id',
+        'imagen'
     ];
 
     protected $casts = [
@@ -62,7 +64,14 @@ class Videojuego extends Model
             'nombre' => 'required|max:255',
             'precio' => 'required|decimal:2|gte:-999999.99|lte:999999.99',
             'lanzamiento' => 'required|date',
-            'desarrolladora_id' => 'required|exists:desarrolladoras,id'
+            'desarrolladora_id' => 'required|exists:desarrolladoras,id',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
         ];
+    }
+
+    public function getImageUrlAttribute()
+    {
+        // asset("storage/videojuegos/" . $videojuego->imagen)
+        return imagen_url_relativa($this->imagen);
     }
 }

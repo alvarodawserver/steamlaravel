@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-errores />
     <div class="w-full max-w-sm mx-auto">
-        <form action="{{ route("videojuegos.update",$videojuego->id)}}" method="post" class="card bg-base-200 p-6 shadow">
+        <form action="{{ route("videojuegos.update",$videojuego->id)}}" method="post" class="card bg-base-200 p-6 shadow" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <label class="floating-label" for="nombre">
@@ -17,6 +17,12 @@
                 <span>Lanzamiento</span>
                 <input class="input" type="date" id="lanzamiento" name="lanzamiento" value="{{ old('lanzamiento', $videojuego ->lanzamiento->format('Y-m-d'))}}"><br>
             </label>
+
+            <label class="floating-label" for="imagen">
+                <span>Imagen:</span>
+                <input class="file-input" type="file" id="imagen" name="imagen" value="{{ old('imagen', $videojuego->imagen)}}"><br>
+            </label>
+
 
             <label class="floating-label" for="desarrolladora_id">
                 <span>Desarrolladora</span>

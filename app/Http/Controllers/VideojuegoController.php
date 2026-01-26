@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class VideojuegoController extends Controller
 {
@@ -51,7 +53,17 @@ class VideojuegoController extends Controller
      */
     public function store(StoreVideojuegoRequest $request)
     {
-        Videojuego::create($request->validated());
+        $datos = $request->validated();
+        $file = $request->file('imagen'); //Este archivo es de tipo "uploaded_file"
+        $imagen = Image::read($file)->scale(null,300)->toJpeg(80);
+        $videojuego = Videojuego::create($datos);
+
+        if ($request->hasFile('imagen')) {
+            $nombre = $videojuego->id . '.jpg';
+            Storage::disk('public')->put(imagen_path_relativa($nombre), $imagen);
+            $videojuego->imagen = $nombre;
+            $videojuego->save();
+        }
         return redirect()->route("videojuegos.index");
     }
 

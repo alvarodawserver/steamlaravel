@@ -10,6 +10,7 @@ use App\Models\Videojuego;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Route::get('/', function () {
     // return redirect()->route('videojuegos.index');
@@ -86,6 +87,14 @@ Route::resource("videojuegos",VideojuegoController::class)->except(['index','sho
 //Lo  de  arriba significa, "Aplica el middleware auth a todas las rutas excepto el index y el show
 Route::resource("videojuegos",VideojuegoController::class)->only(['index','show']);
 
+Route::resource('generos', GeneroController::class)
+    ->except(['index', 'show'])
+    ->middleware('auth');
+
+Route::resource('generos', GeneroController::class)
+    ->only(['index', 'show']);
+
+
 Route::resource("editoras",EditoraController::class);
 Route::resource("generos",GeneroController::class);
 Route::post('/videojuegos/{videojuego}/anadir_genero',[VideojuegoController::class,'agregar_genero'])->middleware('auth')->name('videojuegos.agregar_genero');
@@ -133,6 +142,20 @@ Route::post('/logout',function(Request $request){
 
 
 Route::resource('comentarios',ComentarioController::class);
+
+
+Route::get('/pruebas', function () {
+
+
+    return imagen_url_relativa('ejemplo.jpg');
+
+
+    // return parse_url(Storage::disk('imagenes')->url('ejemplo.jpg'), PHP_URL_PATH);
+
+
+    // Storage::disk('imagenes')->url('ejemplo.jpg');
+
+});
 
 
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...

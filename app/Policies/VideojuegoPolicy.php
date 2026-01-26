@@ -45,7 +45,7 @@ class VideojuegoPolicy
      */
     public function delete(User $user, Videojuego $videojuego): bool
     {
-        return false;
+        return $user->name=='Admin';
     }
 
     /**

@@ -1,5 +1,9 @@
 <x-app-layout>
     <div class="card bg-base-100 w-96 shadow-sm">
+        <figure class="p-4">
+
+            <img width="300" height="150" alt="" src="{{ $videojuego->getImageUrlAttribute() }}"/>
+        </figure>
         <div class="card-body">
             <h2 class="card-tiitle text-3x1">{{ $videojuego->nombre }}</h2>
             <ul class="list bg-base-100 rounded-box shadow-md">
@@ -12,7 +16,6 @@
                     <form action="{{ route("videojuegos.quitar_genero",['videojuego' => $videojuego, 'genero' => $genero])}}" method="post">
                         @method('DELETE')
                         @csrf
-
                         <button class="btn btn-soft btn-success" type="submit">Borrar</button>
                     </form>
                     @endauth
