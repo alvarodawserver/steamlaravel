@@ -4,7 +4,7 @@ use Livewire\Component;
 use App\Models\Videojuego;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Validate;
-
+use App\Models\Desarrolladora;
 new class extends Component
 {
     public ?Videojuego $videojuego = null;
@@ -16,7 +16,7 @@ new class extends Component
     public ?int $precio = null;
 
     #[Validate('required|date')]
-    public ?date $lanzamiento = null;
+    public ?string $lanzamiento = null;
 
     #[Validate('required|exists:desarrolladoras,id')]
     public ?int $desarrolladora_id = null;
@@ -24,12 +24,77 @@ new class extends Component
 
     public bool $esEditar = false;
 
+    public $modal = false;
+
     #[Computed]
     public function videojuegos(){
         return Videojuego::all();
     }
+    #[Computed]
+    public function desarrolladoras(){
+        return Desarrolladora::all();
+    }
 
+    public function editar($id)
+    {
+        $videojuego = Videojuego::find($id);
 
+        if ($videojuego !== null) {
+            // Lógica para cargar los datos de la videojuego en el formulario de edición
+            $this->videojuego = $videojuego;
+            $this->nombre = $videojuego->nombre;
+            $this->precio = $videojuego->precio;
+            $this->lanzamiento = $videojuego->lanzamiento;
+            $this->desarrolladora_id = $videojuego->desarrolladora_id;
+            $this->modal = true;
+            $this->esEditar = true;
+        }
+    }
+
+    public function createUpdate()
+    {
+        $this->validate();
+        if ($this->videojuego === null) {
+            Videojuego::create([
+                'nombre' => $this->nombre,
+                'precio' => $this->precio,
+                'lanzamiento' => $this->lanzamiento,
+                'desarrolladora_id' => $this->desarrolladora_id,
+            ]);
+        } else {
+            $this->videojuego->nombre = $this->nombre;
+            $this->videojuego->precio = $this->precio;
+            $this->videojuego->lanzamiento = $this->lanzamiento;
+            $this->videojuego->desarrolladora_id = $this->desarrolladora_id;
+            $this->videojuego->save();
+        }
+        $this->resetFormulario();
+    }
+
+    public function resetFormulario()
+    {
+        $this->videojuego = null;
+        $this->nombre = '';
+        $this->precio = null;
+        $this->lanzamiento = null;
+        $this->modal = false;
+    }
+
+    public function eliminar($id)
+    {
+        $videojuego = Videojuego::find($id);
+
+        if ($videojuego !== null) {
+            $videojuego->delete();
+        }
+    }
+
+    public function crear()
+    {
+        $this->resetFormulario();
+        $this->modal = true;
+        $this->esEditar = false;
+    }
 
 };
 ?>
@@ -58,16 +123,10 @@ new class extends Component
                             <td>{{ $videojuego->lanzamiento_formateado }}</td>
                             <td>{{ $videojuego->desarrolladora->denominacion}}</td>
                             <td>
-                                @can('delete',$videojuego)
-                                    <form action="{{ route('videojuegos.destroy',$videojuego) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-ghost btn-error" onclick="return confirm('¿Está seguro que desea eliminar el juego?')">Eliminar</button>
-                                    </form>
-                                @endcan
-                                @can('update',$videojuego)
-                                    <a class="btn btn-sm btn-ghost btn-info" href="{{ route('videojuegos.edit', $videojuego) }}">Editar</a>
-                                @endcan
+                                <button type="submit" class="btn btn-sm btn-ghost btn-error" wire:click="eliminar({{ $videojuego->id }})" onclick="return confirm('¿Está seguro que desea eliminar el juego?')">Eliminar</button>
+
+                                <a class="btn btn-sm btn-ghost btn-info" href="#" wire:click="editar({{ $videojuego->id }})">Editar</a>
+
                             </td>
                         </tr>
                         @endforeach
@@ -78,5 +137,62 @@ new class extends Component
                     <a class="btn btn-ghost btn-primary" href="{{ route('videojuegos.create') }}">Dar de alta a un nuevo videojuego</a>
                 @endcan
             @endauth
+        </div>
+
+
+
+        <!-- Formulario de creación y edición de videojuegos -->
+        <div class="w-full max-w-sm mx-auto" wire:show="modal">
+            <h2 class="text-2xl font-bold mb-3">{{ $esEditar ? 'Editar un juego' : 'Crear un juego' }}</h2>
+
+            <form class="card bg-base-200 p-6 shadow" wire:submit.prevent="createUpdate">
+                <label for="nombre" class="floating-label">
+                    <span>Nombre:*</span>
+                    <input class="input" type="text" id="nombre"
+                        name="nombre" wire:model="nombre">
+                    @error('nombre')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </label>
+
+                <label for="precio" class="floating-label">
+                    <span>Precio:*</span>
+                    <input class="input" type="text" id="precio"
+                        name="precio" wire:model="precio">
+                    @error('precio')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </label>
+
+                <label for="lanzamiento" class="floating-label">
+                    <span>Lanzamiento:*</span>
+                    <input class="input" type="text" id="lanzamiento"
+                        name="lanzamiento" wire:model="lanzamiento">
+                    @error('lanzamiento')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </label>
+
+                <label for="desarrolladora_id" class="floating-label">
+                    <span>Desarrolladora:*</span>
+                    <select class="select" name="desarrolladora_id" id="desarrolladora_id" wire:model="desarrolladora_id">
+                        @foreach ($this->desarrolladoras as $desarrolladora )
+                            <option value="{{ $desarrolladora->id }}">{{$desarrolladora->denominacion}}</option>
+                        @endforeach
+                    </select>
+                    @error('desarrolladora_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </label>
+                <div class="flex-2 mt-2">
+                    <button
+                        class="btn btn-soft btn-success"
+                        type="submit">{{ $esEditar ? 'Editar' : 'Crear' }}</button>
+                    <button
+                        class="btn btn-soft btn-error"
+                        type="button"
+                        wire:click="resetFormulario">Cancelar</button>
+                </div>
+            </form>
         </div>
 </div>
