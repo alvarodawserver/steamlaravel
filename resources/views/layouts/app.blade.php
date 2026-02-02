@@ -26,7 +26,8 @@
                 <ul class="menu menu-horizontal px-1">
                     <li><a href="{{ route('generos.index') }}">Generos</a></li>
                     <li><a href="{{ route('clientes.index') }}">Clientes</a></li>
-                    <li><a href="{{ route("videojuegos.index") }}">Juegos</a></li>
+                    <li><a href="{{ route('desarrolladoras') }}">Desarrolladoras</a></li>
+                    <li><a href="{{ route("videojuegos") }}">Juegos</a></li>
                     <li>
                         @auth
                         <details>

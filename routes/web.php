@@ -171,6 +171,12 @@ Route::post('/ajax/mayusculas',function(Request $request){
 });
 
 Route::livewire('/livewire','pages::post.create');
+Route::livewire('/desarrolladoras','pages::desarrolladora.index')->name('desarrolladoras');
+Route::livewire('/videojuegos','pages::videojuego.index')->name('videojuegos');
+
+
+
+
 //Todas estas formas de hacerlo, son "técnicas", podemos usar una fachada, un helper,etc...
 /*Route::get('/hola',function (){
     $nombre = request() -> query('nombre'); //Esto es un helper

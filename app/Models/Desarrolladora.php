@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Desarrolladora extends Model
 {
-    protected $fillable = ['denominacion'];
+    protected $fillable = ['denominacion','editora_id'];
     public function videojuegos(){
         return $this->hasMany(Videojuego::class);
     }
